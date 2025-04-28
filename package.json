@@ -2,20 +2,23 @@
   "name": "mc-coordinate-completion",
   "displayName": "mc-coordinate-completion",
   "description": "Convert target selector arg(corrdinate, volume dimensions) from normal space-divided-corrdinates",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.99.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:mcfunction",
+    "workspaceContains:**/*.mcfunction"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "mc-coordinate-completion.helloWorld",
-        "title": "Hello World"
+        "command": "mc-coordinate-completion.convertCoordinates",
+        "title": "座標形式を変換 (スペース区切り → x=,y=,z=形式)"
       }
     ]
   },

@@ -1,0 +1,8 @@
+# 変換前と変換後はパイプ(|)で表す
+# 変換前 | 変換後
+# のような形式で表す
+
+@e[/fill 111 200 333 100 222 300] | @e[x=100,y=200,z=300,dx=11,dy=22,dz=33]
+execute as @a[39 29 10] run tp @a @s | execute as @a[x=39,y=29,z=10] run tp @a @s
+execute if entity @s[/fill 1 2 3 2 3 4] run setblock 10 20 30 air | execute if entity @s[x=1,y=2,z=3,dx=1,dy=1,dz=1] run setblock 10 20 30 air
+execute as @c[/fill 333 555 2] run fill 33 22 11 33 2 4 minecraft:acacia_button | execute as @c[x=333,y=555,z=2] run fill 33 22 11 33 2 4 minecraft:acacia_button

@@ -1,71 +1,82 @@
-# mc-coordinate-completion README
+# Minecraft 座標変換補完 (mc-coordinate-completion)
 
-This is the README for your extension "mc-coordinate-completion". After writing up a brief description, we recommend including the following sections.
+この拡張機能は、Minecraftのコマンドやデータパックで使用されるターゲットセレクタ引数の座標形式を、スペース区切りの形式から `x=,y=,z=` 形式に簡単に変換するための補完機能を提供します。
 
-## Features
+## 機能
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+この拡張機能は以下の機能を提供します：
 
-For example if there is an image subfolder under your extension project workspace:
+1. 選択したテキスト内のターゲットセレクタ引数の座標パターンを検出し、Minecraft形式の座標に変換する候補を提示します
+2. コマンドを使用して、選択したテキストを直接変換することもできます
 
-\!\[feature X\]\(images/feature-x.png\)
+### ターゲットセレクタ + 3つの数値を含むパターン
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+「`@e[<数字a> <数字b> <数字c>]`」というパターンを「`@e[x=<数字a>,y=<数字b>,z=<数字c>]`」に変換します。
 
-## Requirements
+例：
+```
+@a[39 29 10]
+```
+↓ 変換後
+```
+@a[x=39,y=29,z=10]
+```
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+### ターゲットセレクタ + 6つの数値を含むパターン
 
-## Extension Settings
+「`@e[/fill <数字a> <数字b> <数字c> <数字d> <数字e> <数字f>]`」または「`@e[<数字a> <数字b> <数字c> <数字d> <数字e> <数字f>]`」というパターンを「`@e[x=<数字a>,y=<数字b>,z=<数字c>,dx=<数字d-数字a>,dy=<数字e-数字b>,dz=<数字f-数字c>]`」に変換します。
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+例：
+```
+@e[/fill 111 200 333 100 222 300]
+```
+↓ 変換後
+```
+@e[x=100,y=200,z=300,dx=11,dy=22,dz=33]
+```
 
-For example:
+この形式は、Minecraftのエンティティ選択範囲指定に便利です。dxは終点のx座標から始点のx座標を引いた値になります。
 
-This extension contributes the following settings:
+これは、Minecraftの座標引数を使用する際に特に便利です。例えば：
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+- テレポートコマンド (`/tp`, `/teleport`)
+- エンティティの召喚 (`/summon`)
+- ブロックの設置 (`/setblock`)
+- 範囲指定 (`/fill`, `/clone`)
+- ターゲットセレクタの引数 (`@e[x=10,y=64,z=-30]`)
 
-## Known Issues
+## 使用方法
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+### 補完機能を使用する
 
-## Release Notes
+1. テキストエディタで座標を含むテキストを選択します
+2. 自動的に変換候補が表示されます（テキストを貼り付けた場合も含む）
+3. 候補を選択すると、テキストが変換されます
 
-Users appreciate release notes as you update your extension.
+### コマンドを使用する
 
-### 1.0.0
+1. テキストエディタで座標を含むテキストを選択します
+2. コマンドパレット（`Ctrl+Shift+P` または `Cmd+Shift+P`）を開きます
+3. 「座標形式を変換」コマンドを実行します
 
-Initial release of ...
+## サポートされているファイルタイプ
 
-### 1.0.1
+この拡張機能は以下のファイルタイプでのみ有効です：
 
-Fixed issue #.
+- MCFunction (`.mcfunction`)
 
-### 1.1.0
+## 注意事項
 
-Added features X, Y, and Z.
+- 座標は整数または小数点を含む数値として認識されます
+- 負の数値（例：`-10`）も正しく変換されます
+- 選択したテキスト内に複数の座標パターンがある場合、すべてのパターンに対して変換候補が提示されます
+- ターゲットセレクタ（`@e`、`@a`、`@p`、`@r`、`@s`）の後に続く座標のみが変換対象となります
+- 6つの数値を含むパターンでは、dx, dy, dzが負の値にならないように座標が自動的に調整されます
 
----
+## リリースノート
 
-## Following extension guidelines
+### 0.0.1
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+- 初回リリース
+- 座標変換補完機能の追加
+- 座標変換コマンドの追加
